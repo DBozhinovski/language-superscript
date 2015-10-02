@@ -6,7 +6,7 @@
   "keywords": [
     "SuperScript"
   ],
-  "repository": "https://github.com/atom/language-superscript",
+  "repository": "https://github.com/DBozhinovski/language-superscript",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
