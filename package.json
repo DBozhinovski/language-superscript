@@ -1,0 +1,16 @@
+{
+  "name": "language-superscript",
+  "version": "0.0.1",
+  "description": "SuperScript syntax highlight for Atom",
+  "author": "Darko Bozhinovski <dbozhinovski@gmail.com>",
+  "keywords": [
+    "SuperScript"
+  ],
+  "repository": "https://github.com/atom/language-superscript",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}

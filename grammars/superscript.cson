@@ -1,0 +1,344 @@
+fileTypes: [
+  "ss"
+]
+name: "SuperScript.js"
+patterns: [
+  {
+    include: "#comments"
+  }
+  {
+    include: "#triggers"
+  }
+  {
+    include: "#replies"
+  }
+  {
+    include: "#topics"
+  }
+]
+repository:
+  alternates:
+    patterns: [
+      {
+        begin: "(\\s\\()([a-zA-Z0-9\\s\\-]*)(\\|)"
+        beginCaptures:
+          "1":
+            name: "keyword.control"
+          "2":
+            name: "string.unquoted"
+          "3":
+            name: "keyword.control"
+        contentName: "string.unquoted"
+        end: "(\\))"
+        endCaptures:
+          "1":
+            name: "keyword.control"
+        name: "meta.alternates"
+        patterns: [
+          {
+            include: "#characters"
+          }
+        ]
+      }
+    ]
+  characters:
+    patterns: [
+      {
+        match: "(\\,|\\;|\\|)"
+        name: "keyword.control"
+      }
+    ]
+  comments:
+    patterns: [
+      {
+        match: "//.*$"
+        name: "comment.line.double-slash"
+      }
+      {
+        begin: "/\\*"
+        end: "\\*/"
+        name: "comment.block"
+      }
+    ]
+  constants:
+    patterns: [
+      {
+        match: "\\d+"
+        name: "constant.numeric"
+      }
+      {
+        match: "([a-zA-Z0-9_]*)"
+        name: "constant.character"
+      }
+      {
+        match: "(\\')(.*)(\\')"
+        name: "string.quoted.single"
+      }
+    ]
+  filters:
+    patterns: [
+      {
+        begin: "(\\{\\^[a-zA-Z]*)(\\()"
+        beginCaptures:
+          "1":
+            name: "storage.type.function"
+          "2":
+            name: "keyword.control"
+        end: "(\\))(\\})"
+        endCaptures:
+          "1":
+            name: "keyword.control"
+          "2":
+            name: "storage.type.function"
+        name: "meta.function"
+        patterns: [
+          {
+            include: "#variables"
+          }
+          {
+            include: "#constants"
+          }
+        ]
+      }
+    ]
+  functions:
+    patterns: [
+      {
+        begin: "(\\^[a-zA-Z]*)(\\()"
+        beginCaptures:
+          "1":
+            name: "storage.type.function"
+          "2":
+            name: "keyword.control"
+        end: "(\\))"
+        endCaptures:
+          "1":
+            name: "keyword.control"
+        name: "meta.function"
+        patterns: [
+          {
+            include: "#variables"
+          }
+          {
+            include: "#constants"
+          }
+          {
+            include: "#characters"
+          }
+        ]
+      }
+    ]
+  optionals:
+    patterns: [
+      {
+        captures:
+          "1":
+            name: "keyword.control"
+          "2":
+            name: "string.unquoted"
+          "3":
+            name: "keyword.control"
+        contentName: "constant.language"
+        match: "(\\s\\[)([a-zA-Z0-9\\s\\-]*)(\\])"
+        name: "meta.optionals"
+      }
+    ]
+  references:
+    patterns: [
+      {
+        begin: "^\\s*(\\%\\s)"
+        end: "$"
+        name: "variable.parameter"
+        patterns: [
+          {
+            include: "#comments"
+          }
+        ]
+      }
+    ]
+  replies:
+    patterns: [
+      {
+        begin: "^(\\s*\\-\\s)|(\\s*\\^\\s)"
+        beginCaptures:
+          "1":
+            name: "keyword.other"
+          "2":
+            name: "comment.line.number-sign"
+        contentName: "markup.raw"
+        end: "$"
+        name: "meta.reply"
+        patterns: [
+          {
+            include: "#variables"
+          }
+          {
+            include: "#comments"
+          }
+          {
+            include: "#functions"
+          }
+          {
+            include: "#topic-functions"
+          }
+          {
+            include: "#alternates"
+          }
+          {
+            include: "#filters"
+          }
+          {
+            include: "#reply-functions"
+          }
+        ]
+      }
+    ]
+  "reply-functions":
+    patterns: [
+      {
+        match: "(^\\s*\\@\\s[a-zA-Z0-9\\-_]*)"
+        name: "string.unquoted"
+      }
+    ]
+  "reply-redirect":
+    patterns: [
+      {
+        match: "(\\{\\@[a-zA-Z0-9\\-_]*\\})"
+        name: "string.unquoted"
+      }
+    ]
+  "topic-functions":
+    patterns: [
+      {
+        begin: "(\\{@)"
+        contentName: "variable.parameter"
+        end: "(\\})"
+        name: "storage.type.function"
+      }
+      {
+        match: "(\\{keep\\})"
+        name: "storage.type.function"
+      }
+    ]
+  "topic-redirect":
+    patterns: [
+      {
+        begin: "(\\{topic=)"
+        contentName: "variable.parameter"
+        end: "(\\})"
+        name: "storage.type.function"
+      }
+    ]
+  topics:
+    patterns: [
+      {
+        begin: "(^\\s*\\>\\stopic|^\\s*\\>\\spre|^\\s*\\>\\spost)((\\:nostay|\\:keep|\\:system)*)((\\:nostay|\\:keep|\\:system)*)(\\s[a-zA-Z0-9\\-_]*)(\\s*)([a-zA-Z0-9\\-\\s_]*)(\\(*)([a-zA-Z\\-\\s_]*)(\\)*)"
+        beginCaptures:
+          "1":
+            name: "storage.type.class"
+          "2":
+            name: "keyword.control"
+          "3":
+            name: "keyword.control"
+          "4":
+            name: "keyword.control"
+          "5":
+            name: "keyword.control"
+          "6":
+            name: "variable.parameter"
+          "7":
+            name: "variable.parameter"
+          "8":
+            name: "invalid.illegal"
+          "9":
+            name: "keyword.control"
+          "10":
+            name: "constant.character"
+          "11":
+            name: "keyword.control"
+        end: "(^\\s*\\<\\stopic|^\\s*\\<\\spre|^\\s*\\<\\spost)"
+        endCaptures:
+          "1":
+            name: "storage.type.class"
+        name: "meta.topic"
+        patterns: [
+          {
+            include: "#references"
+          }
+          {
+            include: "#comments"
+          }
+          {
+            include: "#triggers"
+          }
+          {
+            include: "#replies"
+          }
+          {
+            include: "#reply-functions"
+          }
+          {
+            include: "#topic-redirect"
+          }
+          {
+            include: "#reply-redirect"
+          }
+        ]
+      }
+    ]
+  triggers:
+    patterns: [
+      {
+        begin: "^(\\s*\\+\\s|\\s*\\?\\:*[a-zA-Z\\:]*|\\s*\\?\\s)"
+        beginCaptures:
+          "1":
+            name: "keyword.other"
+        contentName: "string.unquoted"
+        end: "$"
+        name: "meta.trigger"
+        patterns: [
+          {
+            include: "#comments"
+          }
+          {
+            include: "#functions"
+          }
+          {
+            include: "#alternates"
+          }
+          {
+            include: "#wildcards"
+          }
+          {
+            include: "#optionals"
+          }
+          {
+            include: "#filters"
+          }
+        ]
+      }
+    ]
+  variables:
+    patterns: [
+      {
+        match: "(\\<)([a-zA-Z0-9_]*)(\\>)"
+        name: "variable.parameter"
+      }
+    ]
+  wildcards:
+    patterns: [
+      {
+        match: "(\\*)(~*)(\\d*)"
+        name: "variable.parameter"
+      }
+      {
+        captures:
+          "1":
+            name: "variable.parameter"
+          "2":
+            name: "string.unquoted"
+        match: "(\\~)([a-zA-Z0-9\\-]*)"
+        name: "variable.parameter.wordnet"
+      }
+    ]
+scopeName: "text.superscript"
